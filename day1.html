@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1: Two Pointers - The Squeeze Play</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-home {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 22px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .story-box {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .visual-box {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .visual-box pre {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .acronym-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .acronym-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .acronym-item {
+            margin: 15px 0;
+            padding-left: 10px;
+        }
+
+        .smell-test {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .problem-card {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .difficulty {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .difficulty.easy {
+            background: #4caf50;
+            color: white;
+        }
+
+        .difficulty.medium {
+            background: #ff9800;
+            color: white;
+        }
+
+        .solution-toggle {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .solution-content.show {
+            display: block;
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
+        }
+
+        .achievement-card h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .pattern-card {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .pattern-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .list-item {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .list-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .pattern-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-buttons">
+            <a href="index.html" class="btn btn-home">🏠 Back to Dashboard</a>
+            <a href="day2.html" class="btn btn-next">Next: Day 2 →</a>
+        </div>
+
+        <div class="header">
+            <h1>🎯 DAY 1: Two Pointers</h1>
+            <p class="subtitle">"The Squeeze Play"</p>
+        </div>
+
+        <div class="section">
+            <h2>🎬 THE STORY: The Sandwich Maker</h2>
+            <div class="story-box">
+                <p>Imagine you're making the PERFECT sandwich. You have two hands:</p>
+                <ul style="margin-left: 20px; margin-top: 15px;">
+                    <li><strong>LEFT HAND</strong> starts at the bottom slice of bread</li>
+                    <li><strong>RIGHT HAND</strong> starts at the top slice of bread</li>
+                </ul>
+                <p style="margin-top: 15px;">Your job? <strong>Squeeze them together</strong> to find the perfect ingredients in the middle!</p>
+                <p style="margin-top: 15px;">Sometimes both hands move toward each other (like finding if bread slices match). Sometimes one hand stays still while the other explores (like spreading peanut butter from left to right).</p>
+                <p style="margin-top: 15px;">This is <strong>Two Pointers</strong> - using two references that move through your data to solve problems efficiently!</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎨 THE VISUAL</h2>
+            <div class="visual-box">
+                <h3>SCENARIO 1: "The Squeeze" (Opposite Ends)</h3>
+                <pre>
+Array: [1, 2, 3, 4, 5, 6, 7, 8]
+        ↑                    ↑
+       LEFT                RIGHT
+        
+Move them closer based on conditions:
+[1, 2, 3, 4, 5, 6, 7, 8]
+     ↑              ↑
+    LEFT          RIGHT
+
+Keep squeezing until they meet:
+[1, 2, 3, 4, 5, 6, 7, 8]
+           ↑  ↑
+         LEFT RIGHT
+                </pre>
+
+                <h3 style="margin-top: 30px;">SCENARIO 2: "The Chase" (Same Direction)</h3>
+                <pre>
+Array: [1, 1, 2, 2, 3, 3, 4]
+        ↑
+      SLOW (result builder)
+        ↑
+       FAST (explorer)
+
+Fast explores ahead, Slow builds result:
+[1, 1, 2, 2, 3, 3, 4]
+        ↑     ↑
+      SLOW  FAST
+                </pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🧠 THE ACRONYM: T.R.A.P.</h2>
+            <div class="acronym-box">
+                <div class="acronym-item">
+                    <strong>T</strong> - <strong>Two</strong> references moving through data
+                </div>
+                <div class="acronym-item">
+                    <strong>R</strong> - <strong>Reduce</strong> time from O(n²) to O(n)
+                </div>
+                <div class="acronym-item">
+                    <strong>A</strong> - <strong>Array</strong> or string (usually sorted or seekable)
+                </div>
+                <div class="acronym-item">
+                    <strong>P</strong> - <strong>Pair</strong> relationships or comparisons
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔍 THE SMELL TEST</h2>
+            <div class="smell-test">
+                <h3>🚨 RED ALERTS (Strong signals):</h3>
+                <div class="list-item">"Find a PAIR that..." (sum to target, equals something)</div>
+                <div class="list-item">Sorted array and need to find something</div>
+                <div class="list-item">Remove duplicates from sorted array</div>
+                <div class="list-item">Palindrome checking</div>
+                <div class="list-item">Reverse or rearrange in-place</div>
+                <div class="list-item">Keywords: "two elements", "pair", "opposite ends"</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💻 CODE TEMPLATES</h2>
+            
+            <h3>Template 1: The Squeeze (Opposite Ends)</h3>
+            <div class="code-block">
+                <pre>function twoPointersSqueeze(arr) {
+    let left = 0;
+    let right = arr.length - 1;
+    
+    while (left < right) {
+        // Check your condition
+        if (/* condition met */) {
+            // Found it!
+            return true;
+        } else if (/* need smaller value */) {
+            right--;
+        } else {
+            left++;
+        }
+    }
+    
+    return false;
+}</pre>
+            </div>
+
+            <h3>Template 2: The Chase (Same Direction)</h3>
+            <div class="code-block">
+                <pre>function twoPointersChase(arr) {
+    let slow = 0; // Builds result
+    
+    for (let fast = 0; fast < arr.length; fast++) {
+        if (/* condition met */) {
+            arr[slow] = arr[fast];
+            slow++;
+        }
+    }
+    
+    return slow;
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 PRACTICE PROBLEMS</h2>
+
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3 style="margin: 0;">Problem 1: Two Sum (Sorted Array)</h3>
+                    <span class="difficulty easy">EASY ⭐</span>
+                </div>
+                <p><strong>Story:</strong> You're at a fruit stand with prices in order. Find TWO fruits that cost exactly your budget!</p>
+                <div class="code-block">
+                    <pre>// Input: [2, 7, 11, 15], target = 9
+// Output: [0, 1]
+
+function twoSum(numbers, target) {
+    // YOUR CODE HERE
+}</pre>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution('sol1')">Show Solution</button>
+                <div id="sol1" class="solution-content">
+                    <div class="code-block">
+                        <pre>function twoSum(numbers, target) {
+    let left = 0;
+    let right = numbers.length - 1;
+    
+    while (left < right) {
+        const sum = numbers[left] + numbers[right];
+        
+        if (sum === target) {
+            return [left, right];
+        } else if (sum < target) {
+            left++; // Need bigger sum
+        } else {
+            right--; // Need smaller sum
+        }
+    }
+    
+    return [-1, -1];
+}
+
+// Time: O(n), Space: O(1)</pre>
+                    </div>
+                    <p><strong>Why it works:</strong> In a sorted array, if sum is too small, we MUST move left pointer right. If sum is too big, we MUST move right pointer left!</p>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3 style="margin: 0;">Problem 2: Remove Duplicates</h3>
+                    <span class="difficulty easy">EASY-MEDIUM ⭐⭐</span>
+                </div>
+                <p><strong>Story:</strong> Organize your bookshelf. Keep only ONE copy of each book!</p>
+                <div class="code-block">
+                    <pre>// Input: [1, 1, 2, 2, 3]
+// Output: 3, array becomes [1, 2, 3, _, _]
+
+function removeDuplicates(nums) {
+    // YOUR CODE HERE
+}</pre>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution('sol2')">Show Solution</button>
+                <div id="sol2" class="solution-content">
+                    <div class="code-block">
+                        <pre>function removeDuplicates(nums) {
+    if (nums.length === 0) return 0;
+    
+    let slow = 0;
+    
+    for (let fast = 1; fast < nums.length; fast++) {
+        if (nums[fast] !== nums[slow]) {
+            slow++;
+            nums[slow] = nums[fast];
+        }
+    }
+    
+    return slow + 1;
+}
+
+// Time: O(n), Space: O(1)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3 style="margin: 0;">Problem 3: Valid Palindrome</h3>
+                    <span class="difficulty medium">MEDIUM ⭐⭐</span>
+                </div>
+                <p><strong>Story:</strong> Detective work! Does this message read the same forwards and backwards?</p>
+                <div class="code-block">
+                    <pre>// Input: "A man, a plan, a canal: Panama"
+// Output: true
+
+function isPalindrome(s) {
+    // YOUR CODE HERE
+}</pre>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution('sol3')">Show Solution</button>
+                <div id="sol3" class="solution-content">
+                    <div class="code-block">
+                        <pre>function isPalindrome(s) {
+    const isAlphaNum = (char) => {
+        const code = char.charCodeAt(0);
+        return (code >= 48 && code <= 57) ||
+               (code >= 65 && code <= 90) ||
+               (code >= 97 && code <= 122);
+    };
+    
+    let left = 0;
+    let right = s.length - 1;
+    
+    while (left < right) {
+        while (left < right && !isAlphaNum(s[left])) {
+            left++;
+        }
+        while (left < right && !isAlphaNum(s[right])) {
+            right--;
+        }
+        
+        if (s[left].toLowerCase() !== s[right].toLowerCase()) {
+            return false;
+        }
+        
+        left++;
+        right--;
+    }
+    
+    return true;
+}
+
+// Time: O(n), Space: O(1)</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="achievement-card">
+            <h2>🏆 DAY 1 ACHIEVEMENT UNLOCKED!</h2>
+            <div class="pattern-card">
+                <h3 style="color: white; margin-top: 0;">PATTERN POKEMON CARD</h3>
+                <div class="pattern-stats">
+                    <div><strong>Name:</strong> Two Pointers</div>
+                    <div><strong>Type:</strong> Array Master</div>
+                    <div><strong>Power:</strong> O(n) Time</div>
+                    <div><strong>Weakness:</strong> Unsorted Data</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📚 HOMEWORK</h2>
+            <div class="story-box">
+                <p><strong>LeetCode Practice:</strong></p>
+                <div class="list-item">Easy: #26 Remove Duplicates, #125 Valid Palindrome</div>
+                <div class="list-item">Medium: #15 Three Sum</div>
+                <div class="list-item">Challenge: #11 Container With Most Water</div>
+            </div>
+        </div>
+
+        <div class="nav-buttons" style="margin-top: 40px;">
+            <a href="index.html" class="btn btn-home">🏠 Back to Dashboard</a>
+            <a href="day2.html" class="btn btn-next">Next: Day 2 →</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleSolution(id) {
+            const solution = document.getElementById(id);
+            solution.classList.toggle('show');
+            const btn = event.target;
+            btn.textContent = solution.classList.contains('show') ? 
+                'Hide Solution' : 'Show Solution';
+        }
+
+        // Mark as completed
+        window.addEventListener('load', () => {
+            const progress = JSON.parse(localStorage.getItem('maangProgress')) || {
+                completedDays: [],
+                patternsLearned: 0,
+                problemsSolved: 0
+            };
+            
+            if (!progress.completedDays.includes(1)) {
+                progress.completedDays.push(1);
+                progress.patternsLearned = Math.max(progress.patternsLearned, 1);
+                progress.problemsSolved = Math.max(progress.problemsSolved, 3);
+                localStorage.setItem('maangProgress', JSON.stringify(progress));
+            }
+        });
+    </script>
+</body>
+</html>

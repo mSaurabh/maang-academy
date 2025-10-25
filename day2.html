@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 2: Two Pointers Advanced</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-home {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-prev {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 22px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .story-box {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .acronym-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .acronym-item {
+            margin: 15px 0;
+            padding-left: 10px;
+        }
+
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .problem-card {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .difficulty {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .difficulty.medium {
+            background: #ff9800;
+            color: white;
+        }
+
+        .difficulty.hard {
+            background: #f44336;
+            color: white;
+        }
+
+        .solution-toggle {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .solution-content.show {
+            display: block;
+        }
+
+        .animation-container {
+            background: #f8f9fa;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .animation-container h3 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .animation-container iframe {
+            width: 100%;
+            height: 700px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .key-learning {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .list-item {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .list-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .animation-container iframe {
+                height: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-buttons">
+            <a href="day1.html" class="btn btn-prev">← Day 1</a>
+            <a href="index.html" class="btn btn-home">🏠 Dashboard</a>
+            <a href="#" class="btn btn-next" onclick="alert('Day 3 coming soon!'); return false;">Day 3 →</a>
+        </div>
+
+        <div class="header">
+            <h1>🎯 DAY 2: Two Pointers Advanced</h1>
+            <p class="subtitle">"The Multi-Squeeze"</p>
+        </div>
+
+        <div class="section">
+            <h2>🎬 THE STORY: The Assembly Line Manager</h2>
+            <div class="story-box">
+                <p>Yesterday you learned to squeeze a sandwich with two hands. Today? You're managing an <strong>assembly line</strong> where you need to coordinate <strong>MULTIPLE squeeze operations</strong>!</p>
+                <p style="margin-top: 15px;">Imagine you're at a warehouse with boxes of different sizes. You need to:</p>
+                <ul style="margin-left: 20px; margin-top: 15px;">
+                    <li>Find <strong>THREE</strong> boxes that fit perfectly in a truck (3Sum)</li>
+                    <li>Stack water containers to catch the most rainwater (Trapping Rain Water)</li>
+                    <li>Find the two tallest containers to hold the most water (Container With Most Water)</li>
+                </ul>
+                <p style="margin-top: 15px;">The secret? <strong>Two pointers INSIDE loops</strong> and <strong>greedy choices</strong>!</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🧠 THE ACRONYM: M.U.L.T.I.</h2>
+            <div class="acronym-box">
+                <div class="acronym-item">
+                    <strong>M</strong> - <strong>Multiple</strong> pointer operations (nested or sequential)
+                </div>
+                <div class="acronym-item">
+                    <strong>U</strong> - <strong>Use</strong> greedy decisions (move smaller/larger pointer)
+                </div>
+                <div class="acronym-item">
+                    <strong>L</strong> - <strong>Loop</strong> with two pointers inside
+                </div>
+                <div class="acronym-item">
+                    <strong>T</strong> - <strong>Track</strong> running maximums or conditions
+                </div>
+                <div class="acronym-item">
+                    <strong>I</strong> - <strong>Iterate</strong> smartly (skip duplicates!)
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 PROBLEM 1: Three Sum</h2>
+
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3 style="margin: 0;">Find Three Numbers that Sum to Zero</h3>
+                    <span class="difficulty medium">MEDIUM ⭐⭐⭐</span>
+                </div>
+                <p><strong>Story:</strong> You're a chef! Find all combinations of THREE ingredients where flavors perfectly balance.</p>
+                <div class="code-block">
+                    <pre>// Input: [-1, 0, 1, 2, -1, -4]
+// Output: [[-1, -1, 2], [-1, 0, 1]]
+
+function threeSum(nums) {
+    // YOUR CODE HERE
+}</pre>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution('sol1')">Show Solution</button>
+                <div id="sol1" class="solution-content">
+                    <div class="code-block">
+                        <pre>function threeSum(nums) {
+    nums.sort((a, b) => a - b);
+    const result = [];
+    
+    for (let i = 0; i < nums.length - 2; i++) {
+        // Skip duplicates for first number
+        if (i > 0 && nums[i] === nums[i - 1]) continue;
+        
+        let left = i + 1;
+        let right = nums.length - 1;
+        const target = -nums[i];
+        
+        while (left < right) {
+            const sum = nums[left] + nums[right];
+            
+            if (sum === target) {
+                result.push([nums[i], nums[left], nums[right]]);
+                
+                // Skip duplicates
+                while (left < right && nums[left] === nums[left + 1]) left++;
+                while (left < right && nums[right] === nums[right - 1]) right--;
+                
+                left++;
+                right--;
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+    }
+    
+    return result;
+}
+
+// Time: O(n²), Space: O(1)</pre>
+                    </div>
+                    <p><strong>Key Insight:</strong> Fix one element, then use two pointers on the rest! Skip duplicates to avoid repeated results.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🌊 PROBLEM 2: Container With Most Water (WITH ANIMATION!)</h2>
+
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3 style="margin: 0;">Maximum Water Container</h3>
+                    <span class="difficulty medium">MEDIUM ⭐⭐⭐</span>
+                </div>
+                <p><strong>Story:</strong> Find two walls that together form a container holding the MOST water!</p>
+                <div class="code-block">
+                    <pre>// Input: height = [1,8,6,2,5,4,8,3,7]
+// Output: 49
+
+function maxArea(height) {
+    // YOUR CODE HERE
+}</pre>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution('sol2')">Show Solution</button>
+                <div id="sol2" class="solution-content">
+                    <div class="code-block">
+                        <pre>function maxArea(height) {
+    let left = 0;
+    let right = height.length - 1;
+    let maxWater = 0;
+    
+    while (left < right) {
+        const width = right - left;
+        const minHeight = Math.min(height[left], height[right]);
+        const area = width * minHeight;
+        
+        maxWater = Math.max(maxWater, area);
+        
+        // Greedy: move the shorter line
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+    
+    return maxWater;
+}
+
+// Time: O(n), Space: O(1)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="animation-container">
+                <h3>🎬 Interactive Animation: Watch the Greedy Strategy!</h3>
+                <iframe srcdoc='<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+body{margin:0;padding:20px;font-family:sans-serif;background:#f5f5f5}
+canvas{border:2px solid #ddd;border-radius:10px;display:block;margin:0 auto;background:white}
+.controls{display:flex;justify-content:center;gap:15px;margin-top:20px}
+button{padding:10px 20px;font-size:14px;border:none;border-radius:5px;cursor:pointer;font-weight:bold}
+#playBtn{background:#667eea;color:white}
+#resetBtn{background:#e0e0e0;color:#333}
+.stats{display:flex;gap:20px;justify-content:center;margin-top:15px}
+.stat{background:white;padding:15px;border-radius:8px;text-align:center}
+.stat-value{font-size:24px;font-weight:bold;color:#667eea}
+.stat-label{font-size:12px;color:#666}
+</style></head><body>
+<canvas id="canvas" width="700" height="350"></canvas>
+<div class="controls">
+<button id="playBtn">▶️ Play</button>
+<button id="resetBtn">🔄 Reset</button>
+</div>
+<div class="stats">
+<div class="stat"><div class="stat-value" id="current">0</div><div class="stat-label">Current</div></div>
+<div class="stat"><div class="stat-value" id="max">0</div><div class="stat-label">Max</div></div>
+<div class="stat"><div class="stat-value" id="steps">0</div><div class="stat-label">Steps</div></div>
+</div>
+<script>
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+const heights=[1,8,6,2,5,4,8,3,7];
+let left=0,right=heights.length-1,maxWater=0,steps=0,isAnimating=false;
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+const barWidth=60,spacing=15,startX=40,baseY=300,scale=25;
+for(let i=0;i<heights.length;i++){
+const x=startX+i*(barWidth+spacing);
+const h=heights[i]*scale;
+ctx.fillStyle=i===left?"#4CAF50":i===right?"#F44336":"#90CAF9";
+ctx.fillRect(x,baseY-h,barWidth,h);
+ctx.fillStyle="#333";
+ctx.font="bold 14px Arial";
+ctx.textAlign="center";
+ctx.fillText(heights[i],x+barWidth/2,baseY-h-8);
+if(i===left||i===right){
+ctx.fillStyle=i===left?"#2E7D32":"#C62828";
+ctx.font="bold 16px Arial";
+ctx.fillText(i===left?"L":"R",x+barWidth/2,baseY+20);
+}
+}
+if(left<right){
+const minH=Math.min(heights[left],heights[right]);
+const leftX=startX+left*(barWidth+spacing);
+const rightX=startX+right*(barWidth+spacing);
+const width=rightX-leftX;
+const waterH=minH*scale;
+ctx.fillStyle="rgba(33,150,243,0.3)";
+ctx.fillRect(leftX,baseY-waterH,width+barWidth,waterH);
+const area=minH*(right-left);
+ctx.fillStyle="#1976D2";
+ctx.font="bold 20px Arial";
+ctx.textAlign="center";
+ctx.fillText("Area = "+area,(leftX+rightX+barWidth)/2,baseY-waterH/2);
+document.getElementById("current").textContent=area;
+maxWater=Math.max(maxWater,area);
+document.getElementById("max").textContent=maxWater;
+}
+document.getElementById("steps").textContent=steps;
+}
+
+async function animate(){
+if(isAnimating)return;
+isAnimating=true;
+document.getElementById("playBtn").disabled=true;
+while(left<right){
+draw();
+await new Promise(r=>setTimeout(r,1000));
+steps++;
+if(heights[left]<heights[right])left++;
+else right--;
+}
+draw();
+isAnimating=false;
+document.getElementById("playBtn").disabled=false;
+document.getElementById("playBtn").textContent="✅ Done";
+}
+
+function reset(){
+left=0;right=heights.length-1;maxWater=0;steps=0;isAnimating=false;
+document.getElementById("playBtn").disabled=false;
+document.getElementById("playBtn").textContent="▶️ Play";
+draw();
+}
+
+document.getElementById("playBtn").addEventListener("click",animate);
+document.getElementById("resetBtn").addEventListener("click",reset);
+reset();
+</script></body></html>'></iframe>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💧 PROBLEM 3: Trapping Rain Water</h2>
+
+            <div class="problem-card">
+                <div class="problem-header">
+                    <h3 style="margin: 0;">Calculate Trapped Water</h3>
+                    <span class="difficulty hard">HARD ⭐⭐⭐⭐</span>
+                </div>
+                <p><strong>Story:</strong> After a rainstorm, water gets trapped between buildings!</p>
+                <div class="code-block">
+                    <pre>// Input: [0,1,0,2,1,0,1,3,2,1,2,1]
+// Output: 6
+
+function trap(height) {
+    // YOUR CODE HERE
+}</pre>
+                </div>
+                <button class="solution-toggle" onclick="toggleSolution('sol3')">Show Solution</button>
+                <div id="sol3" class="solution-content">
+                    <div class="code-block">
+                        <pre>function trap(height) {
+    if (height.length === 0) return 0;
+    
+    let left = 0, right = height.length - 1;
+    let leftMax = 0, rightMax = 0, water = 0;
+    
+    while (left < right) {
+        if (height[left] < height[right]) {
+            if (height[left] >= leftMax) {
+                leftMax = height[left];
+            } else {
+                water += leftMax - height[left];
+            }
+            left++;
+        } else {
+            if (height[right] >= rightMax) {
+                rightMax = height[right];
+            } else {
+                water += rightMax - height[right];
+            }
+            right--;
+        }
+    }
+    
+    return water;
+}
+
+// Time: O(n), Space: O(1)

@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAANG Pattern Cheatsheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .no-print {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-print {
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin: 0 10px;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-home {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .cheatsheet {
+            background: white;
+            max-width: 297mm;
+            margin: 0 auto;
+            padding: 15mm;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #667eea;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .pattern-card {
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            padding: 12px;
+            background: #f8f9ff;
+            page-break-inside: avoid;
+        }
+
+        .pattern-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .pattern-icon {
+            font-size: 28px;
+        }
+
+        .pattern-title {
+            flex: 1;
+        }
+
+        .pattern-title h3 {
+            color: #667eea;
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        .pattern-title .nickname {
+            color: #764ba2;
+            font-size: 11px;
+            font-style: italic;
+        }
+
+        .pattern-body {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .code-snippet {
+            background: #282c34;
+            color: #61dafb;
+            padding: 8px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            margin: 8px 0;
+            overflow-x: auto;
+        }
+
+        .code-snippet pre {
+            margin: 0;
+            white-space: pre;
+        }
+
+        .visual-box {
+            background: white;
+            border: 2px dashed #667eea;
+            border-radius: 5px;
+            padding: 8px;
+            margin: 8px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .section-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .complexity {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .smell-test {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 6px 8px;
+            margin: 8px 0;
+            font-size: 10px;
+        }
+
+        .smell-test ul {
+            margin: 5px 0 0 15px;
+            padding: 0;
+        }
+
+        .smell-test li {
+            margin: 3px 0;
+        }
+
+        .acronym {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 10px;
+            margin: 8px 0;
+        }
+
+        .acronym-item {
+            margin: 4px 0;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+            padding: 12px;
+            background: #f0f4ff;
+            border-radius: 8px;
+            font-size: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-icon {
+            font-size: 20px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            .cheatsheet {
+                max-width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                padding: 10mm;
+            }
+
+            .pattern-card {
+                page-break-inside: avoid;
+            }
+
+            @page {
+                size: A4 landscape;
+                margin: 10mm;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .pattern-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .legend {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <button class="btn-print btn-home" onclick="window.location.href='index.html'">🏠 Back to Dashboard</button>
+        <button class="btn-print" onclick="window.print()">🖨️ Print Cheatsheet</button>
+    </div>
+
+    <div class="cheatsheet">
+        <div class="header">
+            <h1>🎯 MAANG Pattern Cheatsheet</h1>
+            <p class="subtitle">Your complete visual reference for coding interview patterns</p>
+        </div>
+
+        <div class="pattern-grid">
+            <!-- Pattern 1: Two Pointers - Squeeze -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">👈👉</span>
+                    <div class="pattern-title">
+                        <h3>Two Pointers - Squeeze</h3>
+                        <p class="nickname">"The Sandwich Maker"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="acronym">
+                        <strong>T.R.A.P.</strong><br>
+                        <div class="acronym-item">• <strong>T</strong>wo references moving</div>
+                        <div class="acronym-item">• <strong>R</strong>educe O(n²) to O(n)</div>
+                        <div class="acronym-item">• <strong>A</strong>rray (sorted!)</div>
+                        <div class="acronym-item">• <strong>P</strong>air relationships</div>
+                    </div>
+
+                    <div class="visual-box">
+[1, 2, 3, 4, 5, 6, 7, 8]<br>
+ ↑                    ↑<br>
+LEFT               RIGHT<br>
+<br>
+Squeeze until they meet!
+                    </div>
+
+                    <div class="code-snippet"><pre>let L = 0, R = arr.length - 1;
+while (L < R) {
+  if (condition) return true;
+  else if (needSmaller) R--;
+  else L++;
+}</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Sorted array + find pair</li>
+                            <li>"Two elements sum to X"</li>
+                            <li>Palindrome checking</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(1)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 2: Two Pointers - Chase -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🏃💨</span>
+                    <div class="pattern-title">
+                        <h3>Two Pointers - Chase</h3>
+                        <p class="nickname">"Slow Builder, Fast Explorer"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+[1, 1, 2, 2, 3, 3, 4]<br>
+ ↑  ↑<br>
+SLOW FAST<br>
+<br>
+Fast finds, Slow builds!
+                    </div>
+
+                    <div class="code-snippet"><pre>let slow = 0;
+for (let fast = 0; fast < n; fast++) {
+  if (condition) {
+    arr[slow] = arr[fast];
+    slow++;
+  }
+}
+return slow;</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Remove duplicates in-place</li>
+                            <li>Filter array in-place</li>
+                            <li>Move elements to end</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(1)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 3: Fast & Slow Pointers -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🐢🐰</span>
+                    <div class="pattern-title">
+                        <h3>Fast & Slow (Floyd's)</h3>
+                        <p class="nickname">"Tortoise & Hare Race"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+1 → 2 → 3 → 4<br>
+    ↑       ↓<br>
+    ← ← ← ←<br>
+<br>
+If there's a cycle, they MEET!
+                    </div>
+
+                    <div class="code-snippet"><pre>let slow = head, fast = head;
+while (fast && fast.next) {
+  slow = slow.next;
+  fast = fast.next.next;
+  if (slow === fast) return true;
+}
+return false;</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Detect cycle in linked list</li>
+                            <li>Find middle of linked list</li>
+                            <li>Find cycle start point</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(1)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 4: Sliding Window - Fixed -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🪟</span>
+                    <div class="pattern-title">
+                        <h3>Sliding Window - Fixed</h3>
+                        <p class="nickname">"The Moving Frame"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+[1, 2, 3, 4, 5, 6, 7]<br>
+ [---k---]           Window size k<br>
+   [---k---]         Slide right<br>
+     [---k---]       Keep sliding!
+                    </div>
+
+                    <div class="code-snippet"><pre>let sum = 0, maxSum = 0;
+for (let i = 0; i < k; i++) sum += arr[i];
+maxSum = sum;
+for (let i = k; i < n; i++) {
+  sum += arr[i] - arr[i-k];
+  maxSum = Math.max(maxSum, sum);
+}</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>"Maximum sum of k elements"</li>
+                            <li>Fixed-size subarray problems</li>
+                            <li>Average of subarrays</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(1)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 5: Sliding Window - Dynamic -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🎪</span>
+                    <div class="pattern-title">
+                        <h3>Sliding Window - Dynamic</h3>
+                        <p class="nickname">"The Stretchy Window"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+[a, b, c, a, c, b, b]<br>
+ [--]               Expand right<br>
+ [------]           When invalid...<br>
+   [----]           ...shrink left!
+                    </div>
+
+                    <div class="code-snippet"><pre>let left = 0, result = 0;
+for (let right = 0; right < n; right++) {
+  // Add arr[right] to window
+  while (invalid) {
+    // Remove arr[left], left++
+  }
+  result = Math.max(result, right-left+1);
+}</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Longest substring with...</li>
+                            <li>Smallest subarray that...</li>
+                            <li>K distinct characters</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(k)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 6: Binary Search -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🔍</span>
+                    <div class="pattern-title">
+                        <h3>Binary Search</h3>
+                        <p class="nickname">"The Library Card Catalog"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+[1, 3, 5, 7, 9, 11, 13]<br>
+ L        M         R<br>
+Target = 9<br>
+9 > 7? Search right half!
+                    </div>
+
+                    <div class="code-snippet"><pre>let L = 0, R = arr.length - 1;
+while (L <= R) {
+  const mid = Math.floor((L + R) / 2);
+  if (arr[mid] === target) return mid;
+  if (arr[mid] < target) L = mid + 1;
+  else R = mid - 1;
+}
+return -1;</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Sorted array search</li>
+                            <li>Find peak/valley</li>
+                            <li>Search rotated array</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(log n)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(1)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 7: BFS -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🌊</span>
+                    <div class="pattern-title">
+                        <h3>BFS (Breadth-First)</h3>
+                        <p class="nickname">"Ripples in a Pond"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+      1<br>
+    /   \<br>
+   2     3      Level 0<br>
+  / \   / \    Level 1<br>
+ 4   5 6   7   Level 2<br>
+<br>
+Process level by level!
+                    </div>
+
+                    <div class="code-snippet"><pre>const queue = [root];
+while (queue.length) {
+  const size = queue.length;
+  for (let i = 0; i < size; i++) {
+    const node = queue.shift();
+    // Process node
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
+  }
+}</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Level-order traversal</li>
+                            <li>Shortest path (unweighted)</li>
+                            <li>"Nearest" problems</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(w)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 8: DFS -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🕳️</span>
+                    <div class="pattern-title">
+                        <h3>DFS (Depth-First)</h3>
+                        <p class="nickname">"Cave Exploring"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+      1<br>
+    /   \<br>
+   2     3<br>
+  / \<br>
+ 4   5<br>
+<br>
+Go DEEP first: 1→2→4→5→3
+                    </div>
+
+                    <div class="code-snippet"><pre>function dfs(node) {
+  if (!node) return;
+  // Process node
+  dfs(node.left);
+  dfs(node.right);
+}
+// OR iterative with stack
+const stack = [root];
+while (stack.length) {
+  const node = stack.pop();
+  // Process & push children
+}</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Tree traversal (in/pre/post)</li>
+                            <li>Path finding (all paths)</li>
+                            <li>Backtracking problems</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(h)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 9: Backtracking -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🎲</span>
+                    <div class="pattern-title">
+                        <h3>Backtracking</h3>
+                        <p class="nickname">"The Decision Tree"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+         []<br>
+      /  |  \<br>
+    [1] [2] [3]<br>
+   /  \<br>
+[1,2][1,3]<br>
+<br>
+Try all paths, backtrack!
+                    </div>
+
+                    <div class="code-snippet"><pre>function backtrack(current, ...) {
+  if (isComplete) {
+    result.push([...current]);
+    return;
+  }
+  for (let choice of choices) {
+    current.push(choice);    // Choose
+    backtrack(current, ...); // Explore
+    current.pop();           // Unchoose
+  }
+}</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Generate all subsets</li>
+                            <li>Permutations/combinations</li>
+                            <li>N-Queens, Sudoku</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(2ⁿ or n!)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(n)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 10: Dynamic Programming -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">💰</span>
+                    <div class="pattern-title">
+                        <h3>Dynamic Programming</h3>
+                        <p class="nickname">"The Memo-ization Master"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+Fibonacci:<br>
+       fib(5)<br>
+      /      \<br>
+  fib(4)   fib(3)<br>
+<br>
+Cache results! Avoid recalc!
+                    </div>
+
+                    <div class="code-snippet"><pre>// Top-down (Memoization)
+const memo = {};
+function dp(n) {
+  if (n in memo) return memo[n];
+  memo[n] = /* calculation */;
+  return memo[n];
+}
+// Bottom-up (Tabulation)
+const dp = new Array(n+1);
+dp[0] = base; dp[1] = base;
+for (let i = 2; i <= n; i++)
+  dp[i] = dp[i-1] + dp[i-2];</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Optimization problems</li>
+                            <li>Counting ways</li>
+                            <li>Overlapping subproblems</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n) to O(n²)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(n)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 11: Heap/Priority Queue -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🔥</span>
+                    <div class="pattern-title">
+                        <h3>Heap (Top K Elements)</h3>
+                        <p class="nickname">"The VIP Queue"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+Min Heap (keep k largest):<br>
+      [5]<br>
+    /     \<br>
+  [7]     [6]<br>
+<br>
+Root = smallest of k largest!
+                    </div>
+
+                    <div class="code-snippet"><pre>// Find k largest (use min heap)
+const heap = [];
+for (const num of nums) {
+  heap.push(num);
+  heap.sort((a,b) => a-b);
+  if (heap.length > k) {
+    heap.shift(); // Remove min
+  }
+}
+return heap[0];</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Top K largest/smallest</li>
+                            <li>K closest points</li>
+                            <li>Median from stream</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n log k)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(k)</span>
+                </div>
+            </div>
+
+            <!-- Pattern 12: Hash Map/Set -->
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <span class="pattern-icon">🗺️</span>
+                    <div class="pattern-title">
+                        <h3>Hash Map/Set</h3>
+                        <p class="nickname">"The Contact List"</p>
+                    </div>
+                </div>
+                <div class="pattern-body">
+                    <div class="visual-box">
+Map: {key → value}<br>
+nums[i] → index<br>
+char → frequency<br>
+<br>
+Set: {unique values}<br>
+Check existence in O(1)!
+                    </div>
+
+                    <div class="code-snippet"><pre>// Two Sum (unsorted)
+const map = new Map();
+for (let i = 0; i < nums.length; i++) {
+  const complement = target - nums[i];
+  if (map.has(complement)) {
+    return [map.get(complement), i];
+  }
+  map.set(nums[i], i);
+}</pre></div>
+
+                    <div class="smell-test">
+                        <strong>🚨 Use When:</strong>
+                        <ul>
+                            <li>Count frequency</li>
+                            <li>Find duplicates</li>
+                            <li>Check existence quickly</li>
+                        </ul>
+                    </div>
+
+                    <span class="complexity">Time: O(n)</span>
+                    <span class="complexity" style="background: #2196f3;">Space: O(n)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-icon">👈👉</span>
+                <span><strong>Two Pointers:</strong> Sorted arrays, pairs</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🪟</span>
+                <span><strong>Sliding Window:</strong> Subarrays, substrings</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🔍</span>
+                <span><strong>Binary Search:</strong> Sorted, search space</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🌊</span>
+                <span><strong>BFS:</strong> Shortest path, levels</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🕳️</span>
+                <span><strong>DFS:</strong> All paths, backtrack</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">💰</span>
+                <span><strong>DP:</strong> Optimization, counting</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🔥</span>
+                <span><strong>Heap:</strong> Top K, priority</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🗺️</span>
+                <span><strong>Hash:</strong> Frequency, lookup</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
