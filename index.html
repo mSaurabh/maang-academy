@@ -307,19 +307,19 @@
             <h2 style="color: #333; margin-bottom: 20px;">Your Progress</h2>
             <div class="progress-stats">
                 <div class="stat-box">
-                    <div class="stat-number" id="daysCompleted">2</div>
+                    <div class="stat-number" id="daysCompleted">3</div>
                     <div class="stat-label">Days Completed</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number" id="patternsLearned">2</div>
+                    <div class="stat-number" id="patternsLearned">3</div>
                     <div class="stat-label">Patterns Mastered</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number" id="problemsSolved">6</div>
+                    <div class="stat-number" id="problemsSolved">14</div>
                     <div class="stat-label">Problems Solved</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number">4%</div>
+                    <div class="stat-number">5%</div>
                     <div class="stat-label">Course Progress</div>
                 </div>
             </div>
@@ -347,11 +347,11 @@
                     <div class="day-number">Day 2</div>
                     <div class="day-title">Two Pointers - Advanced</div>
                 </a>
-                <div class="day-card locked" onclick="alert('Complete Day 2 first!')">
+                <a href="day3.html" class="day-card completed">
                     <div class="day-icon">🐢🐰</div>
                     <div class="day-number">Day 3</div>
                     <div class="day-title">Fast & Slow Pointers</div>
-                </div>
+                </a>
                 <div class="day-card locked">
                     <div class="day-icon">🪟</div>
                     <div class="day-number">Day 4</div>
@@ -466,8 +466,8 @@
                     <div class="badge-icon">🎯</div>
                     <div class="badge-name">Multi-Squeeze Pro</div>
                 </div>
-                <div class="badge">
-                    <div class="badge-icon">🔒</div>
+                <div class="badge earned">
+                    <div class="badge-icon">🐢🐰</div>
                     <div class="badge-name">Cycle Detective</div>
                 </div>
                 <div class="badge">
@@ -501,9 +501,9 @@
     <script>
         // Progress tracking with localStorage
         const progress = JSON.parse(localStorage.getItem('maangProgress')) || {
-            completedDays: [1, 2],
-            patternsLearned: 2,
-            problemsSolved: 6
+            completedDays: [1, 2, 3],
+            patternsLearned: 3,
+            problemsSolved: 14
         };
 
         function saveProgress() {

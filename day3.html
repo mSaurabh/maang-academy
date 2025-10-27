@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 3: Fast & Slow Pointers - MAANG Pattern Academy</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .day-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin: 15px 0;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .section {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .story-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .analogy-box {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #4facfe;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-keyword {
+            color: #569cd6;
+        }
+
+        .code-function {
+            color: #dcdcaa;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .code-number {
+            color: #b5cea8;
+        }
+
+        .visual-demo {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #667eea;
+            text-align: center;
+        }
+
+        .pointer-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .node {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: #667eea;
+        }
+
+        .pointer-label {
+            position: absolute;
+            bottom: -30px;
+            font-size: 0.8em;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .slow-pointer {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
+        }
+
+        .fast-pointer {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .mnemonic-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #fdcb6e;
+        }
+
+        .mnemonic-box h3 {
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .mnemonic-item {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .mnemonic-letter {
+            font-weight: bold;
+            color: #d63031;
+            font-size: 1.3em;
+        }
+
+        .pattern-recognition {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .pattern-recognition h3 {
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .trigger-word {
+            display: inline-block;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-weight: bold;
+            color: #d63031;
+        }
+
+        .problem-box {
+            background: #fff;
+            border: 2px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .problem-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .easy { background: #d4edda; color: #155724; }
+        .medium { background: #fff3cd; color: #856404; }
+        .hard { background: #f8d7da; color: #721c24; }
+
+        .tip-box {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #8e44ad;
+        }
+
+        .tip-box strong {
+            color: #8e44ad;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9ff;
+        }
+
+        .animation-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #667eea;
+        }
+
+        #cycleCanvas {
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .animation-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: transform 0.2s;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .key-insight {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .solution-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px 0;
+            transition: background 0.3s;
+        }
+
+        .solution-toggle:hover {
+            background: #5568d3;
+        }
+
+        .solution-content {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+
+        .solution-content.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .pointer-visual {
+                flex-direction: column;
+            }
+
+            .node {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="day-badge">DAY 3</div>
+            <h1>🐢🐰 Fast & Slow Pointers</h1>
+            <p class="subtitle">Floyd's Cycle Detection Algorithm</p>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-btn">🏠 Home</a>
+            <a href="day2.html" class="nav-btn">← Day 2</a>
+            <a href="day4.html" class="nav-btn">Day 4 →</a>
+            <a href="cheatsheet.html" class="nav-btn">📋 Cheatsheet</a>
+        </div>
+
+        <!-- Section 1: The Story -->
+        <div class="section">
+            <h2>📖 The Story: The Tortoise and the Hare</h2>
+            <div class="story-box">
+                <h3>🏃‍♂️ The Racetrack Mystery</h3>
+                <p><strong>Imagine a race between a tortoise 🐢 and a hare 🐰 on a mysterious track...</strong></p>
+                <p style="margin-top: 15px;">
+                    The track might be straight, leading to a finish line, or it might loop back on itself like a circular racetrack.
+                    How can we tell if the track has a loop without mapping every single step?
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>The brilliant insight:</strong> Send both runners at the same time, but at different speeds!
+                </p>
+                <ul style="margin-top: 10px;">
+                    <li>🐢 <strong>Tortoise</strong> moves 1 step at a time</li>
+                    <li>🐰 <strong>Hare</strong> moves 2 steps at a time</li>
+                </ul>
+                <p style="margin-top: 15px;">
+                    <strong>If there's a loop:</strong> The faster hare will eventually lap the tortoise and they'll meet!<br>
+                    <strong>If there's no loop:</strong> The hare will reach the end and the race is over.
+                </p>
+                <p style="margin-top: 15px; font-style: italic; color: #d63031;">
+                    💡 This is Floyd's Cycle Detection Algorithm - one of the most elegant algorithmic insights in computer science!
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 2: Real-World Analogy -->
+        <div class="section">
+            <h2>🌍 Real-World Analogy</h2>
+            <div class="analogy-box">
+                <h3>🎢 The Amusement Park Ride</h3>
+                <p><strong>Imagine you're an inspector checking a roller coaster track for a dangerous infinite loop...</strong></p>
+
+                <p style="margin-top: 15px;"><strong>Scenario 1: Normal Track</strong></p>
+                <p>You send two carts: one slow (safety cart) and one fast (test cart). The fast cart reaches the end first. ✅ Track is safe!</p>
+
+                <p style="margin-top: 15px;"><strong>Scenario 2: Loop Track</strong></p>
+                <p>The fast cart keeps going around and around, eventually catching up to the slow cart from behind. 🚨 Danger! There's a loop!</p>
+
+                <p style="margin-top: 15px;"><strong>Why this works:</strong></p>
+                <ul>
+                    <li>If the track ends, the faster cart will always finish first</li>
+                    <li>If the track loops, the faster cart will eventually catch the slower one</li>
+                    <li>You don't need to map the entire track - just watch for a collision!</li>
+                </ul>
+            </div>
+
+            <div class="analogy-box">
+                <h3>🏃‍♀️ Another Analogy: The Running Track</h3>
+                <p><strong>Two friends running on a track:</strong></p>
+                <ul>
+                    <li>If it's a straight track (no loop), the faster runner finishes first and you never meet</li>
+                    <li>If it's a circular track (loop), the faster runner will eventually lap you and meet you again</li>
+                </ul>
+                <p style="margin-top: 10px; font-style: italic;">This is exactly how we detect cycles in linked lists!</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Visual Diagram -->
+        <div class="section">
+            <h2>🎨 Visual Diagram</h2>
+
+            <div class="visual-demo">
+                <h3>Scenario 1: No Cycle</h3>
+                <p style="margin-bottom: 20px;">Slow pointer moves 1 step, Fast pointer moves 2 steps</p>
+                <div class="pointer-visual">
+                    <div class="node">1</div>
+                    <span class="arrow">→</span>
+                    <div class="node">2</div>
+                    <span class="arrow">→</span>
+                    <div class="node">3</div>
+                    <span class="arrow">→</span>
+                    <div class="node">4</div>
+                    <span class="arrow">→</span>
+                    <div class="node">null</div>
+                </div>
+                <p style="margin-top: 30px;">Fast pointer reaches null first → <strong>No cycle detected</strong> ✅</p>
+            </div>
+
+            <div class="visual-demo" style="margin-top: 20px;">
+                <h3>Scenario 2: Cycle Exists</h3>
+                <p style="margin-bottom: 20px;">Pointers will eventually meet inside the cycle</p>
+                <div style="margin: 20px 0;">
+                    <pre style="font-family: monospace; text-align: left; display: inline-block; font-size: 0.9em;">
+    1 → 2 → 3 → 4 → 5
+            ↑       ↓
+            8 ← 7 ← 6
+
+    Step 1: Slow=1, Fast=2
+    Step 2: Slow=2, Fast=4
+    Step 3: Slow=3, Fast=6
+    Step 4: Slow=4, Fast=8
+    Step 5: Slow=5, Fast=3
+    Step 6: Slow=6, Fast=5
+    Step 7: Slow=7, Fast=7  ← THEY MEET! 🎯
+                    </pre>
+                </div>
+                <p style="margin-top: 20px;">Pointers meet → <strong>Cycle detected!</strong> 🔄</p>
+            </div>
+        </div>
+
+        <!-- Section 4: Animation -->
+        <div class="section">
+            <h2>🎬 Interactive Animation</h2>
+            <div class="animation-container">
+                <h3 style="text-align: center; color: #667eea; margin-bottom: 20px;">Floyd's Cycle Detection in Action</h3>
+                <canvas id="cycleCanvas" width="800" height="400"></canvas>
+                <div class="animation-controls">
+                    <button class="control-btn" onclick="startAnimation()">▶️ Start</button>
+                    <button class="control-btn" onclick="resetAnimation()">🔄 Reset</button>
+                    <button class="control-btn" onclick="toggleCycle()">🔀 Toggle Cycle</button>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p id="animationStatus" style="font-size: 1.1em; font-weight: bold; color: #667eea;">Ready to start</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: The Pattern -->
+        <div class="section">
+            <h2>🎯 The Pattern</h2>
+
+            <div class="key-insight">
+                <strong>Core Insight:</strong> When you have two pointers moving at different speeds through a linked structure,
+                they will meet if and only if there's a cycle!
+            </div>
+
+            <h3 style="margin-top: 30px; color: #667eea;">How It Works:</h3>
+            <ol>
+                <li><strong>Initialize:</strong> Both pointers start at the head</li>
+                <li><strong>Move:</strong> Slow moves 1 step, Fast moves 2 steps</li>
+                <li><strong>Check:</strong> If Fast reaches null → No cycle</li>
+                <li><strong>Detect:</strong> If Slow == Fast → Cycle exists!</li>
+            </ol>
+
+            <h3 style="margin-top: 30px; color: #667eea;">Why Different Speeds?</h3>
+            <div class="tip-box">
+                <p><strong>Mathematical Proof:</strong></p>
+                <ul>
+                    <li>In a cycle of length C, the fast pointer gains 1 step on the slow pointer each iteration</li>
+                    <li>If slow is at position K in the cycle, fast will catch up in at most C iterations</li>
+                    <li>The gap closes by 1 each time: (K+C), (K+C-1), ..., (K+1), K → They meet!</li>
+                </ul>
+            </div>
+
+            <h3 style="margin-top: 30px; color: #667eea;">Bonus: Finding Cycle Start 🎁</h3>
+            <p>Once cycle is detected, you can find WHERE it starts:</p>
+            <ol>
+                <li>Keep one pointer at meeting point</li>
+                <li>Reset other pointer to head</li>
+                <li>Move both at speed 1</li>
+                <li>Where they meet is the cycle start!</li>
+            </ol>
+            <div class="tip-box">
+                <strong>Why this works:</strong> Mathematical property - the distance from head to cycle start equals
+                the distance from meeting point to cycle start (when going around the cycle).
+            </div>
+        </div>
+
+        <!-- Section 6: Code Template -->
+        <div class="section">
+            <h2>💻 Code Template</h2>
+
+            <h3 style="color: #667eea; margin-bottom: 15px;">Basic Cycle Detection</h3>
+            <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">hasCycle</span>(head):
+    <span class="code-comment"># Edge case: empty list or single node</span>
+    <span class="code-keyword">if not</span> head <span class="code-keyword">or not</span> head.next:
+        <span class="code-keyword">return</span> <span class="code-keyword">False</span>
+
+    <span class="code-comment"># Initialize two pointers</span>
+    slow = head
+    fast = head
+
+    <span class="code-comment"># Move pointers at different speeds</span>
+    <span class="code-keyword">while</span> fast <span class="code-keyword">and</span> fast.next:
+        slow = slow.next         <span class="code-comment"># Move 1 step 🐢</span>
+        fast = fast.next.next    <span class="code-comment"># Move 2 steps 🐰</span>
+
+        <span class="code-comment"># Check if they meet</span>
+        <span class="code-keyword">if</span> slow == fast:
+            <span class="code-keyword">return</span> <span class="code-keyword">True</span>    <span class="code-comment"># Cycle detected! 🔄</span>
+
+    <span class="code-keyword">return</span> <span class="code-keyword">False</span>    <span class="code-comment"># Fast reached end, no cycle ✅</span></div>
+
+            <h3 style="color: #667eea; margin: 30px 0 15px 0;">Advanced: Find Cycle Start Position</h3>
+            <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">detectCycle</span>(head):
+    <span class="code-keyword">if not</span> head <span class="code-keyword">or not</span> head.next:
+        <span class="code-keyword">return</span> <span class="code-keyword">None</span>
+
+    <span class="code-comment"># Phase 1: Detect if cycle exists</span>
+    slow = fast = head
+    has_cycle = <span class="code-keyword">False</span>
+
+    <span class="code-keyword">while</span> fast <span class="code-keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        <span class="code-keyword">if</span> slow == fast:
+            has_cycle = <span class="code-keyword">True</span>
+            <span class="code-keyword">break</span>
+
+    <span class="code-keyword">if not</span> has_cycle:
+        <span class="code-keyword">return</span> <span class="code-keyword">None</span>
+
+    <span class="code-comment"># Phase 2: Find cycle start</span>
+    <span class="code-comment"># Reset one pointer to head, keep other at meeting point</span>
+    slow = head
+    <span class="code-keyword">while</span> slow != fast:
+        slow = slow.next      <span class="code-comment"># Both move at speed 1</span>
+        fast = fast.next
+
+    <span class="code-keyword">return</span> slow    <span class="code-comment"># This is the cycle start! 🎯</span></div>
+
+            <h3 style="color: #667eea; margin: 30px 0 15px 0;">Pattern Variations</h3>
+            <div class="code-block"><span class="code-comment"># 1. Find Middle of Linked List (Fast & Slow)</span>
+<span class="code-keyword">def</span> <span class="code-function">findMiddle</span>(head):
+    slow = fast = head
+    <span class="code-keyword">while</span> fast <span class="code-keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    <span class="code-keyword">return</span> slow    <span class="code-comment"># When fast reaches end, slow is at middle!</span>
+
+<span class="code-comment"># 2. Check if Linked List is a Palindrome</span>
+<span class="code-keyword">def</span> <span class="code-function">isPalindrome</span>(head):
+    <span class="code-comment"># Step 1: Find middle using fast & slow</span>
+    slow = fast = head
+    <span class="code-keyword">while</span> fast <span class="code-keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    <span class="code-comment"># Step 2: Reverse second half</span>
+    second_half = <span class="code-function">reverse</span>(slow)
+
+    <span class="code-comment"># Step 3: Compare both halves</span>
+    first_half = head
+    <span class="code-keyword">while</span> second_half:
+        <span class="code-keyword">if</span> first_half.val != second_half.val:
+            <span class="code-keyword">return</span> <span class="code-keyword">False</span>
+        first_half = first_half.next
+        second_half = second_half.next
+    <span class="code-keyword">return</span> <span class="code-keyword">True</span>
+
+<span class="code-comment"># 3. Find Start of Cycle (Already shown above)</span>
+<span class="code-comment"># 4. Happy Number Problem</span>
+<span class="code-keyword">def</span> <span class="code-function">isHappy</span>(n):
+    <span class="code-keyword">def</span> <span class="code-function">get_next</span>(num):
+        total = <span class="code-number">0</span>
+        <span class="code-keyword">while</span> num > <span class="code-number">0</span>:
+            digit = num % <span class="code-number">10</span>
+            total += digit * digit
+            num //= <span class="code-number">10</span>
+        <span class="code-keyword">return</span> total
+
+    slow = n
+    fast = <span class="code-function">get_next</span>(n)
+
+    <span class="code-keyword">while</span> fast != <span class="code-number">1</span> <span class="code-keyword">and</span> slow != fast:
+        slow = <span class="code-function">get_next</span>(slow)
+        fast = <span class="code-function">get_next</span>(<span class="code-function">get_next</span>(fast))
+
+    <span class="code-keyword">return</span> fast == <span class="code-number">1</span>    <span class="code-comment"># If reaches 1, it's happy; if cycle, not happy</span></div>
+        </div>
+
+        <!-- Section 7: When to Use This Pattern -->
+        <div class="section">
+            <h2>🎪 When to Use This Pattern</h2>
+
+            <div class="pattern-recognition">
+                <h3>🚨 Trigger Words & Phrases:</h3>
+                <div style="margin: 15px 0;">
+                    <span class="trigger-word">cycle detection</span>
+                    <span class="trigger-word">linked list cycle</span>
+                    <span class="trigger-word">circular reference</span>
+                    <span class="trigger-word">middle of list</span>
+                    <span class="trigger-word">palindrome list</span>
+                    <span class="trigger-word">happy number</span>
+                    <span class="trigger-word">loop detection</span>
+                    <span class="trigger-word">infinite loop</span>
+                </div>
+            </div>
+
+            <div class="mnemonic-box">
+                <h3>🧠 Mnemonic: C.Y.C.L.E.</h3>
+                <div class="mnemonic-item">
+                    <span class="mnemonic-letter">C</span>ycle or circular structure mentioned
+                </div>
+                <div class="mnemonic-item">
+                    <span class="mnemonic-letter">Y</span>ou need to find middle/detect loop
+                </div>
+                <div class="mnemonic-item">
+                    <span class="mnemonic-letter">C</span>hecking linked list properties
+                </div>
+                <div class="mnemonic-item">
+                    <span class="mnemonic-letter">L</span>inked data structure (list, chain)
+                </div>
+                <div class="mnemonic-item">
+                    <span class="mnemonic-letter">E</span>fficient O(1) space solution needed
+                </div>
+            </div>
+
+            <h3 style="color: #667eea; margin-top: 30px;">Perfect Use Cases:</h3>
+            <table class="comparison-table">
+                <tr>
+                    <th>Problem Type</th>
+                    <th>Why Fast & Slow?</th>
+                    <th>Time/Space</th>
+                </tr>
+                <tr>
+                    <td><strong>Detect Cycle in Linked List</strong></td>
+                    <td>Classic application - pointers meet if cycle exists</td>
+                    <td>O(n) / O(1)</td>
+                </tr>
+                <tr>
+                    <td><strong>Find Middle Element</strong></td>
+                    <td>When fast reaches end, slow is at middle</td>
+                    <td>O(n) / O(1)</td>
+                </tr>
+                <tr>
+                    <td><strong>Palindrome Linked List</strong></td>
+                    <td>Find middle, then reverse and compare</td>
+                    <td>O(n) / O(1)</td>
+                </tr>
+                <tr>
+                    <td><strong>Happy Number</strong></td>
+                    <td>Detect cycle in number sequence</td>
+                    <td>O(log n) / O(1)</td>
+                </tr>
+                <tr>
+                    <td><strong>Find Duplicate Number</strong></td>
+                    <td>Treat array as linked list, detect cycle</td>
+                    <td>O(n) / O(1)</td>
+                </tr>
+            </table>
+
+            <div class="tip-box">
+                <strong>Pro Tip:</strong> If the problem involves a linked list or any sequence where you need to detect
+                patterns without using extra space, think Fast & Slow pointers first!
+            </div>
+        </div>
+
+        <!-- Section 8: Practice Problems -->
+        <div class="section">
+            <h2>🏋️ Practice Problems</h2>
+
+            <div class="problem-box">
+                <h4>1. Linked List Cycle <span class="difficulty easy">EASY</span></h4>
+                <p><strong>Problem:</strong> Given head of a linked list, determine if it has a cycle.</p>
+                <p><strong>LeetCode:</strong> #141</p>
+                <p><strong>Hint:</strong> Use basic fast & slow template - if they meet, there's a cycle!</p>
+                <button class="solution-toggle" onclick="toggleSolution('sol1', event)">Show Solution</button>
+                <div id="sol1" class="solution-content">
+                    <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">hasCycle</span>(head):
+    <span class="code-keyword">if not</span> head <span class="code-keyword">or not</span> head.next:
+        <span class="code-keyword">return</span> <span class="code-keyword">False</span>
+
+    slow = head
+    fast = head
+
+    <span class="code-keyword">while</span> fast <span class="code-keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        <span class="code-keyword">if</span> slow == fast:
+            <span class="code-keyword">return</span> <span class="code-keyword">True</span>
+
+    <span class="code-keyword">return</span> <span class="code-keyword">False</span>
+
+<span class="code-comment"># Time: O(n), Space: O(1)</span></div>
+                    <p><strong>Why it works:</strong> If there's a cycle, fast pointer will eventually catch up to slow pointer. If no cycle, fast reaches the end.</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <h4>2. Linked List Cycle II <span class="difficulty medium">MEDIUM</span></h4>
+                <p><strong>Problem:</strong> Given head of a linked list, return the node where the cycle begins.</p>
+                <p><strong>LeetCode:</strong> #142</p>
+                <p><strong>Hint:</strong> Two phases - detect cycle, then find start position!</p>
+                <button class="solution-toggle" onclick="toggleSolution('sol2', event)">Show Solution</button>
+                <div id="sol2" class="solution-content">
+                    <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">detectCycle</span>(head):
+    <span class="code-keyword">if not</span> head <span class="code-keyword">or not</span> head.next:
+        <span class="code-keyword">return</span> <span class="code-keyword">None</span>
+
+    <span class="code-comment"># Phase 1: Detect cycle</span>
+    slow = fast = head
+    has_cycle = <span class="code-keyword">False</span>
+
+    <span class="code-keyword">while</span> fast <span class="code-keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        <span class="code-keyword">if</span> slow == fast:
+            has_cycle = <span class="code-keyword">True</span>
+            <span class="code-keyword">break</span>
+
+    <span class="code-keyword">if not</span> has_cycle:
+        <span class="code-keyword">return</span> <span class="code-keyword">None</span>
+
+    <span class="code-comment"># Phase 2: Find cycle start</span>
+    slow = head
+    <span class="code-keyword">while</span> slow != fast:
+        slow = slow.next
+        fast = fast.next
+
+    <span class="code-keyword">return</span> slow
+
+<span class="code-comment"># Time: O(n), Space: O(1)</span></div>
+                    <p><strong>Key insight:</strong> Distance from head to cycle start = distance from meeting point to cycle start (going around)!</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <h4>3. Happy Number <span class="difficulty easy">EASY</span></h4>
+                <p><strong>Problem:</strong> A happy number is a number where repeatedly replacing it with sum of squares
+                of its digits eventually leads to 1.</p>
+                <p><strong>LeetCode:</strong> #202</p>
+                <p><strong>Hint:</strong> This is cycle detection in disguise! If not happy, sequence will cycle.</p>
+                <button class="solution-toggle" onclick="toggleSolution('sol3', event)">Show Solution</button>
+                <div id="sol3" class="solution-content">
+                    <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">isHappy</span>(n):
+    <span class="code-keyword">def</span> <span class="code-function">get_next</span>(num):
+        total = <span class="code-number">0</span>
+        <span class="code-keyword">while</span> num > <span class="code-number">0</span>:
+            digit = num % <span class="code-number">10</span>
+            total += digit * digit
+            num //= <span class="code-number">10</span>
+        <span class="code-keyword">return</span> total
+
+    slow = n
+    fast = <span class="code-function">get_next</span>(n)
+
+    <span class="code-keyword">while</span> fast != <span class="code-number">1</span> <span class="code-keyword">and</span> slow != fast:
+        slow = <span class="code-function">get_next</span>(slow)
+        fast = <span class="code-function">get_next</span>(<span class="code-function">get_next</span>(fast))
+
+    <span class="code-keyword">return</span> fast == <span class="code-number">1</span>
+
+<span class="code-comment"># Time: O(log n), Space: O(1)</span></div>
+                    <p><strong>Why fast & slow:</strong> Treat number transformations as a linked list. Either reaches 1 or cycles forever!</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <h4>4. Middle of the Linked List <span class="difficulty easy">EASY</span></h4>
+                <p><strong>Problem:</strong> Given head of a singly linked list, return the middle node.</p>
+                <p><strong>LeetCode:</strong> #876</p>
+                <p><strong>Hint:</strong> When fast reaches end, slow is at middle!</p>
+                <button class="solution-toggle" onclick="toggleSolution('sol4', event)">Show Solution</button>
+                <div id="sol4" class="solution-content">
+                    <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">middleNode</span>(head):
+    slow = head
+    fast = head
+
+    <span class="code-keyword">while</span> fast <span class="code-keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    <span class="code-keyword">return</span> slow
+
+<span class="code-comment"># Time: O(n), Space: O(1)</span></div>
+                    <p><strong>Visual:</strong> Fast moves 2x speed. When fast reaches end, slow is exactly halfway! For even length, returns second middle node.</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <h4>5. Palindrome Linked List <span class="difficulty easy">EASY</span></h4>
+                <p><strong>Problem:</strong> Check if a linked list is a palindrome.</p>
+                <p><strong>LeetCode:</strong> #234</p>
+                <p><strong>Hint:</strong> Find middle, reverse second half, compare both halves!</p>
+                <button class="solution-toggle" onclick="toggleSolution('sol5', event)">Show Solution</button>
+                <div id="sol5" class="solution-content">
+                    <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">isPalindrome</span>(head):
+    <span class="code-comment"># Find middle</span>
+    slow = fast = head
+    <span class="code-keyword">while</span> fast <span class="code-keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    <span class="code-comment"># Reverse second half</span>
+    prev = <span class="code-keyword">None</span>
+    <span class="code-keyword">while</span> slow:
+        next_node = slow.next
+        slow.next = prev
+        prev = slow
+        slow = next_node
+
+    <span class="code-comment"># Compare both halves</span>
+    left, right = head, prev
+    <span class="code-keyword">while</span> right:
+        <span class="code-keyword">if</span> left.val != right.val:
+            <span class="code-keyword">return</span> <span class="code-keyword">False</span>
+        left = left.next
+        right = right.next
+
+    <span class="code-keyword">return</span> <span class="code-keyword">True</span>
+
+<span class="code-comment"># Time: O(n), Space: O(1)</span></div>
+                    <p><strong>Three steps:</strong> 1) Find middle with fast/slow 2) Reverse second half 3) Compare values from both ends!</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <h4>6. Find the Duplicate Number <span class="difficulty medium">MEDIUM</span></h4>
+                <p><strong>Problem:</strong> Given array of n+1 integers where each integer is between 1 and n,
+                find the duplicate number.</p>
+                <p><strong>LeetCode:</strong> #287</p>
+                <p><strong>Hint:</strong> Treat array as linked list! Index contains pointer to next index.</p>
+                <button class="solution-toggle" onclick="toggleSolution('sol6', event)">Show Solution</button>
+                <div id="sol6" class="solution-content">
+                    <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">findDuplicate</span>(nums):
+    <span class="code-comment"># Treat array as linked list</span>
+    <span class="code-comment"># nums[i] points to index nums[i]</span>
+    slow = nums[<span class="code-number">0</span>]
+    fast = nums[<span class="code-number">0</span>]
+
+    <span class="code-comment"># Phase 1: Find intersection</span>
+    <span class="code-keyword">while</span> <span class="code-keyword">True</span>:
+        slow = nums[slow]
+        fast = nums[nums[fast]]
+        <span class="code-keyword">if</span> slow == fast:
+            <span class="code-keyword">break</span>
+
+    <span class="code-comment"># Phase 2: Find entrance to cycle</span>
+    slow = nums[<span class="code-number">0</span>]
+    <span class="code-keyword">while</span> slow != fast:
+        slow = nums[slow]
+        fast = nums[fast]
+
+    <span class="code-keyword">return</span> slow
+
+<span class="code-comment"># Time: O(n), Space: O(1)</span></div>
+                    <p><strong>Mind-blowing insight:</strong> Array indices are like nodes, values are like next pointers! Duplicate creates a cycle.</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <h4>7. Reorder List <span class="difficulty medium">MEDIUM</span></h4>
+                <p><strong>Problem:</strong> Reorder list from L0→L1→L2→...→Ln to L0→Ln→L1→Ln-1→L2→Ln-2...</p>
+                <p><strong>LeetCode:</strong> #143</p>
+                <p><strong>Hint:</strong> Find middle, reverse second half, then merge!</p>
+                <button class="solution-toggle" onclick="toggleSolution('sol7', event)">Show Solution</button>
+                <div id="sol7" class="solution-content">
+                    <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">reorderList</span>(head):
+    <span class="code-keyword">if not</span> head <span class="code-keyword">or not</span> head.next:
+        <span class="code-keyword">return</span>
+
+    <span class="code-comment"># Step 1: Find middle</span>
+    slow = fast = head
+    <span class="code-keyword">while</span> fast.next <span class="code-keyword">and</span> fast.next.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    <span class="code-comment"># Step 2: Reverse second half</span>
+    second = slow.next
+    slow.next = <span class="code-keyword">None</span>
+    prev = <span class="code-keyword">None</span>
+    <span class="code-keyword">while</span> second:
+        tmp = second.next
+        second.next = prev
+        prev = second
+        second = tmp
+
+    <span class="code-comment"># Step 3: Merge two halves</span>
+    first = head
+    second = prev
+    <span class="code-keyword">while</span> second:
+        tmp1, tmp2 = first.next, second.next
+        first.next = second
+        second.next = tmp1
+        first, second = tmp1, tmp2
+
+<span class="code-comment"># Time: O(n), Space: O(1)</span></div>
+                    <p><strong>Three-step process:</strong> Find middle → Reverse second half → Weave them together!</p>
+                </div>
+            </div>
+
+            <div class="problem-box">
+                <h4>8. Circular Array Loop <span class="difficulty medium">MEDIUM</span></h4>
+                <p><strong>Problem:</strong> Given array of positive and negative integers, check if there's a circular loop.</p>
+                <p><strong>LeetCode:</strong> #457</p>
+                <p><strong>Hint:</strong> Fast & slow pointers, but watch for direction changes!</p>
+                <button class="solution-toggle" onclick="toggleSolution('sol8', event)">Show Solution</button>
+                <div id="sol8" class="solution-content">
+                    <div class="code-block"><span class="code-keyword">def</span> <span class="code-function">circularArrayLoop</span>(nums):
+    n = <span class="code-function">len</span>(nums)
+
+    <span class="code-keyword">def</span> <span class="code-function">next_index</span>(i):
+        <span class="code-keyword">return</span> (i + nums[i]) % n
+
+    <span class="code-keyword">for</span> i <span class="code-keyword">in</span> <span class="code-function">range</span>(n):
+        <span class="code-keyword">if</span> nums[i] == <span class="code-number">0</span>:
+            <span class="code-keyword">continue</span>
+
+        slow = fast = i
+        forward = nums[i] > <span class="code-number">0</span>
+
+        <span class="code-keyword">while</span> <span class="code-keyword">True</span>:
+            <span class="code-comment"># Move slow</span>
+            slow = <span class="code-function">next_index</span>(slow)
+            <span class="code-keyword">if</span> nums[slow] == <span class="code-number">0</span> <span class="code-keyword">or</span> (nums[slow] > <span class="code-number">0</span>) != forward:
+                <span class="code-keyword">break</span>
+
+            <span class="code-comment"># Move fast twice</span>
+            fast = <span class="code-function">next_index</span>(fast)
+            <span class="code-keyword">if</span> nums[fast] == <span class="code-number">0</span> <span class="code-keyword">or</span> (nums[fast] > <span class="code-number">0</span>) != forward:
+                <span class="code-keyword">break</span>
+            fast = <span class="code-function">next_index</span>(fast)
+            <span class="code-keyword">if</span> nums[fast] == <span class="code-number">0</span> <span class="code-keyword">or</span> (nums[fast] > <span class="code-number">0</span>) != forward:
+                <span class="code-keyword">break</span>
+
+            <span class="code-keyword">if</span> slow == fast:
+                <span class="code-keyword">if</span> slow == <span class="code-function">next_index</span>(slow):
+                    <span class="code-keyword">break</span>  <span class="code-comment"># Single element cycle</span>
+                <span class="code-keyword">return</span> <span class="code-keyword">True</span>
+
+    <span class="code-keyword">return</span> <span class="code-keyword">False</span>
+
+<span class="code-comment"># Time: O(n), Space: O(1)</span></div>
+                    <p><strong>Extra complexity:</strong> Must ensure all moves are in same direction (all forward or all backward) and cycle length > 1!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 9: Common Mistakes -->
+        <div class="section">
+            <h2>⚠️ Common Mistakes to Avoid</h2>
+
+            <div class="tip-box">
+                <h3 style="color: #8e44ad;">❌ Mistake 1: Not Checking fast.next</h3>
+                <p><strong>Wrong:</strong></p>
+                <pre style="background: #2d2d2d; color: white; padding: 10px; border-radius: 5px; margin: 10px 0;">while fast:
+    fast = fast.next.next  # ❌ Can crash if fast.next is None!</pre>
+                <p><strong>Right:</strong></p>
+                <pre style="background: #2d2d2d; color: white; padding: 10px; border-radius: 5px; margin: 10px 0;">while fast and fast.next:
+    fast = fast.next.next  # ✅ Safe!</pre>
+            </div>
+
+            <div class="tip-box">
+                <h3 style="color: #8e44ad;">❌ Mistake 2: Starting Pointers at Different Positions</h3>
+                <p><strong>Wrong:</strong></p>
+                <pre style="background: #2d2d2d; color: white; padding: 10px; border-radius: 5px; margin: 10px 0;">slow = head
+fast = head.next  # ❌ They start at different positions!</pre>
+                <p><strong>Right:</strong></p>
+                <pre style="background: #2d2d2d; color: white; padding: 10px; border-radius: 5px; margin: 10px 0;">slow = head
+fast = head  # ✅ Both start at head!</pre>
+                <p style="margin-top: 10px;"><em>Note: For some problems (like finding cycle start), you might need different starting positions, but for basic detection, start together!</em></p>
+            </div>
+
+            <div class="tip-box">
+                <h3 style="color: #8e44ad;">❌ Mistake 3: Forgetting Edge Cases</h3>
+                <ul>
+                    <li>Empty list (head is None)</li>
+                    <li>Single node list (head.next is None)</li>
+                    <li>Two-node list</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Always check:</strong> <code>if not head or not head.next</code></p>
+            </div>
+
+            <div class="tip-box">
+                <h3 style="color: #8e44ad;">❌ Mistake 4: Using Wrong Speed Ratio</h3>
+                <p>For cycle detection, 1:2 ratio (slow:fast) is standard. Don't use 1:3 or other ratios unless specific problem requires it!</p>
+            </div>
+
+            <div class="tip-box">
+                <h3 style="color: #8e44ad;">❌ Mistake 5: Not Understanding WHY It Works</h3>
+                <p>Don't just memorize the pattern - understand that:</p>
+                <ul>
+                    <li>Different speeds guarantee meeting in a cycle</li>
+                    <li>Gap closes by 1 each iteration</li>
+                    <li>Mathematical proof exists for finding cycle start</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 10: Complexity Analysis -->
+        <div class="section">
+            <h2>📊 Complexity Analysis</h2>
+
+            <h3 style="color: #667eea;">Basic Cycle Detection:</h3>
+            <table class="comparison-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Complexity</th>
+                    <th>Explanation</th>
+                </tr>
+                <tr>
+                    <td><strong>Time - No Cycle</strong></td>
+                    <td><code>O(n)</code></td>
+                    <td>Fast pointer reaches end in n/2 steps</td>
+                </tr>
+                <tr>
+                    <td><strong>Time - With Cycle</strong></td>
+                    <td><code>O(n)</code></td>
+                    <td>At most n steps to enter cycle + cycle length to meet</td>
+                </tr>
+                <tr>
+                    <td><strong>Space</strong></td>
+                    <td><code>O(1)</code></td>
+                    <td>Only two pointers, no extra data structures!</td>
+                </tr>
+            </table>
+
+            <div class="key-insight">
+                <strong>🎯 Key Advantage:</strong> This algorithm achieves O(1) space complexity compared to O(n) if using a HashSet to track visited nodes!
+            </div>
+
+            <h3 style="color: #667eea; margin-top: 30px;">Comparison with Alternatives:</h3>
+            <table class="comparison-table">
+                <tr>
+                    <th>Approach</th>
+                    <th>Time</th>
+                    <th>Space</th>
+                    <th>Notes</th>
+                </tr>
+                <tr>
+                    <td><strong>Fast & Slow Pointers</strong></td>
+                    <td>O(n)</td>
+                    <td>O(1)</td>
+                    <td>✅ Best space efficiency</td>
+                </tr>
+                <tr>
+                    <td><strong>HashSet</strong></td>
+                    <td>O(n)</td>
+                    <td>O(n)</td>
+                    <td>❌ Uses extra space</td>
+                </tr>
+                <tr>
+                    <td><strong>Modify List</strong></td>
+                    <td>O(n)</td>
+                    <td>O(1)</td>
+                    <td>❌ Destroys original data</td>
+                </tr>
+            </table>
+
+            <h3 style="color: #667eea; margin-top: 30px;">Detailed Analysis:</h3>
+
+            <div class="tip-box">
+                <h4>Why O(n) time even with cycle?</h4>
+                <p><strong>Proof:</strong></p>
+                <ol>
+                    <li>Let's say there are N nodes before the cycle and C nodes in the cycle</li>
+                    <li>Fast pointer needs N/2 steps to reach cycle (moving 2x speed)</li>
+                    <li>Once in cycle, fast gains 1 step on slow each iteration</li>
+                    <li>Maximum gap is C-1, so they meet in at most C steps</li>
+                    <li>Total: N/2 + C ≤ N (since C ≤ N)</li>
+                    <li>Therefore: <strong>O(N)</strong></li>
+                </ol>
+            </div>
+
+            <div class="tip-box">
+                <h4>Space Complexity Deep Dive:</h4>
+                <ul>
+                    <li><strong>Variables:</strong> 2 pointers (slow, fast) = O(1)</li>
+                    <li><strong>No recursion:</strong> No call stack space</li>
+                    <li><strong>No data structures:</strong> No arrays, sets, or maps</li>
+                    <li><strong>Result:</strong> Pure O(1) space! 🎉</li>
+                </ul>
+            </div>
+
+            <h3 style="color: #667eea; margin-top: 30px;">Performance Characteristics:</h3>
+            <ul>
+                <li><strong>Best Case:</strong> O(1) - Cycle detected in first iteration (both pointers at same node)</li>
+                <li><strong>Average Case:</strong> O(n) - Typical traversal through list</li>
+                <li><strong>Worst Case:</strong> O(n) - Long non-cyclic list or large cycle</li>
+            </ul>
+        </div>
+
+        <!-- Footer Navigation -->
+        <div style="margin-top: 50px; padding-top: 30px; border-top: 2px solid #667eea; text-align: center;">
+            <div class="nav-buttons">
+                <a href="index.html" class="nav-btn">🏠 Back to Dashboard</a>
+                <a href="day2.html" class="nav-btn">← Previous: Sliding Window</a>
+                <a href="day4.html" class="nav-btn">Next: Day 4 →</a>
+            </div>
+            <p style="margin-top: 20px; color: #666;">
+                Keep learning! 🚀 Master this pattern and move to the next challenge.
+            </p>
+        </div>
+    </div>
+
+    <!-- Common JavaScript -->
+    <script src="js/common.js"></script>
+    <!-- Day 3 Animation -->
+    <script src="js/day3-animation.js"></script>
+    <script>
+        // Mark Day 3 as completed
+        window.addEventListener('load', () => {
+            ProgressTracker.markDayComplete(3, 3, 14);
+        });
+    </script>
+</body>
+</html>

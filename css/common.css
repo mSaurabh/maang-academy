@@ -1,0 +1,365 @@
+/**
+ * MAANG Pattern Academy - Common Styles
+ * Shared CSS across all lesson pages
+ */
+
+/* ============================================
+   Global Resets & Base Styles
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ============================================
+   Container & Layout
+   ============================================ */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+h1 {
+    color: #667eea;
+    font-size: 2.5em;
+    margin: 15px 0;
+}
+
+h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+}
+
+/* ============================================
+   Header Section
+   ============================================ */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #667eea;
+}
+
+.day-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 1.1em;
+    font-style: italic;
+}
+
+/* ============================================
+   Navigation Buttons
+   ============================================ */
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-block;
+}
+
+.nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* ============================================
+   Sections
+   ============================================ */
+.section {
+    margin: 40px 0;
+    padding: 30px;
+    background: #f8f9ff;
+    border-radius: 15px;
+    border-left: 5px solid #667eea;
+}
+
+/* ============================================
+   Code Blocks
+   ============================================ */
+.code-block {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin: 20px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.code-comment { color: #6a9955; }
+.code-keyword { color: #569cd6; }
+.code-function { color: #dcdcaa; }
+.code-string { color: #ce9178; }
+.code-number { color: #b5cea8; }
+
+/* ============================================
+   Colored Info Boxes
+   ============================================ */
+.story-box {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    padding: 25px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border-left: 5px solid #ff6b6b;
+}
+
+.analogy-box {
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    padding: 25px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border-left: 5px solid #4facfe;
+}
+
+.tip-box {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border-left: 5px solid #8e44ad;
+}
+
+.tip-box strong { color: #8e44ad; }
+
+.key-insight {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-weight: 500;
+}
+
+.mnemonic-box {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    padding: 25px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border-left: 5px solid #fdcb6e;
+}
+
+.mnemonic-box h3 {
+    color: #2d3436;
+    margin-bottom: 15px;
+}
+
+.mnemonic-item {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.mnemonic-letter {
+    font-weight: bold;
+    color: #d63031;
+    font-size: 1.3em;
+}
+
+/* ============================================
+   Pattern Recognition
+   ============================================ */
+.pattern-recognition {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    padding: 25px;
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.pattern-recognition h3 {
+    color: #2d3436;
+    margin-bottom: 15px;
+}
+
+.trigger-word {
+    display: inline-block;
+    background: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin: 5px;
+    font-weight: bold;
+    color: #d63031;
+}
+
+/* ============================================
+   Problem Boxes
+   ============================================ */
+.problem-box {
+    background: #fff;
+    border: 2px solid #667eea;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.problem-box h4 {
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+/* ============================================
+   Difficulty Badges
+   ============================================ */
+.difficulty {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.easy { background: #d4edda; color: #155724; }
+.medium { background: #fff3cd; color: #856404; }
+.hard { background: #f8d7da; color: #721c24; }
+
+/* ============================================
+   Solution Toggles
+   ============================================ */
+.solution-toggle {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 10px 0;
+    transition: background 0.3s;
+}
+
+.solution-toggle:hover {
+    background: #5568d3;
+}
+
+.solution-content {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9ff;
+    border-radius: 10px;
+}
+
+.solution-content.show {
+    display: block;
+}
+
+/* ============================================
+   Tables
+   ============================================ */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.comparison-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    text-align: left;
+}
+
+.comparison-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.comparison-table tr:hover {
+    background: #f8f9ff;
+}
+
+/* ============================================
+   Lists
+   ============================================ */
+ul, ol {
+    margin-left: 25px;
+    margin-top: 10px;
+}
+
+li {
+    margin: 8px 0;
+}
+
+/* ============================================
+   Visual Demos
+   ============================================ */
+.visual-demo {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border: 2px solid #667eea;
+    text-align: center;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .nav-buttons {
+        flex-direction: column;
+    }
+
+    .section {
+        padding: 20px;
+    }
+}

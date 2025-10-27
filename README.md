@@ -14,8 +14,10 @@ An interactive, 8-week coding interview preparation course with:
 
 ## 📚 Current Progress
 
-- ✅ **Week 1** - Two Pointers (Days 1-2 complete)
-- 🔄 **Weeks 2-8** - Coming soon!
+- ✅ **Day 1** - Two Pointers: The Squeeze
+- ✅ **Day 2** - Two Pointers: Advanced (with animation!)
+- ✅ **Day 3** - Fast & Slow Pointers (Floyd's Cycle Detection)
+- 🔄 **Days 4-56** - Coming soon!
 
 ## 🎓 Course Structure
 
@@ -56,12 +58,37 @@ Tries, Greedy, Bit Manipulation, Mock Interviews
 3. Enable GitHub Pages
 4. Access from anywhere at: `yourusername.github.io/maang-academy`
 
-## 📋 Files Included
+## 📋 File Structure
 
-- `index.html` - Main dashboard with progress tracking
-- `day1.html` - Day 1: Two Pointers basics
-- `day2.html` - Day 2: Two Pointers advanced (with animation!)
-- `cheatsheet.html` - Printable visual reference sheet
+```
+maang-academy/
+├── index.html              # Dashboard with progress tracking
+├── day1.html               # Day 1: Two Pointers - Squeeze
+├── day2.html               # Day 2: Two Pointers - Advanced
+├── day3.html               # Day 3: Fast & Slow Pointers
+├── cheatsheet.html         # Printable pattern reference
+├── css/
+│   └── common.css          # Shared styles
+├── js/
+│   ├── common.js           # Shared utilities & solution toggles
+│   ├── day2-animation.js   # Container animation
+│   └── day3-animation.js   # Cycle detection animation
+└── super-prompt-md.md      # Project context for Claude
+```
+
+## 🛠️ Technical Details
+
+**Built With:**
+- Pure HTML/CSS/JavaScript (no frameworks!)
+- Canvas API for animations
+- localStorage for progress tracking
+- Responsive design (mobile-friendly)
+
+**Code Quality:**
+- SonarQube compliant
+- Modular architecture (shared JS/CSS)
+- JSDoc documented
+- Strict mode enabled
 
 ## 🎨 Features
 

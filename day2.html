@@ -320,7 +320,7 @@ function threeSum(nums) {
     // YOUR CODE HERE
 }</pre>
                 </div>
-                <button class="solution-toggle" onclick="toggleSolution('sol1')">Show Solution</button>
+                <button class="solution-toggle" onclick="toggleSolution('sol1', event)">Show Solution</button>
                 <div id="sol1" class="solution-content">
                     <div class="code-block">
                         <pre>function threeSum(nums) {
@@ -382,7 +382,7 @@ function maxArea(height) {
     // YOUR CODE HERE
 }</pre>
                 </div>
-                <button class="solution-toggle" onclick="toggleSolution('sol2')">Show Solution</button>
+                <button class="solution-toggle" onclick="toggleSolution('sol2', event)">Show Solution</button>
                 <div id="sol2" class="solution-content">
                     <div class="code-block">
                         <pre>function maxArea(height) {
@@ -530,7 +530,7 @@ function trap(height) {
     // YOUR CODE HERE
 }</pre>
                 </div>
-                <button class="solution-toggle" onclick="toggleSolution('sol3')">Show Solution</button>
+                <button class="solution-toggle" onclick="toggleSolution('sol3', event)">Show Solution</button>
                 <div id="sol3" class="solution-content">
                     <div class="code-block">
                         <pre>function trap(height) {
@@ -560,4 +560,27 @@ function trap(height) {
     return water;
 }
 
-// Time: O(n), Space: O(1)
+// Time: O(n), Space: O(1)</pre>
+                    </div>
+                    <p><strong>Key Insight:</strong> Track leftMax and rightMax to calculate water trapped at each position. Move pointer with smaller height!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons" style="margin-top: 40px; text-align: center;">
+            <a href="index.html" class="btn btn-home" style="display: inline-block; padding: 10px 20px; background: #e0e0e0; color: #333; text-decoration: none; border-radius: 8px; margin: 0 5px;">🏠 Back to Dashboard</a>
+            <a href="day1.html" class="btn btn-prev" style="display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; margin: 0 5px;">← Day 1</a>
+            <a href="day3.html" class="btn btn-next" style="display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; margin: 0 5px;">Day 3 →</a>
+        </div>
+    </div>
+
+    <!-- Common JavaScript -->
+    <script src="js/common.js"></script>
+    <script>
+        // Mark Day 2 as completed
+        window.addEventListener('load', () => {
+            ProgressTracker.markDayComplete(2, 2, 6);
+        });
+    </script>
+</body>
+</html>

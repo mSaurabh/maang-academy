@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title>MAANG Pattern Cheatsheet</title>
     <style>
         * {
@@ -368,28 +369,46 @@ return slow;</pre></div>
                     </div>
                 </div>
                 <div class="pattern-body">
+                    <div class="acronym">
+                        <strong>C.Y.C.L.E.</strong><br>
+                        <div class="acronym-item">• <strong>C</strong>ycle/circular mentioned</div>
+                        <div class="acronym-item">• <strong>Y</strong>ou need middle/loop</div>
+                        <div class="acronym-item">• <strong>C</strong>hecking list properties</div>
+                        <div class="acronym-item">• <strong>L</strong>inked data structure</div>
+                        <div class="acronym-item">• <strong>E</strong>fficient O(1) space</div>
+                    </div>
+
                     <div class="visual-box">
-1 → 2 → 3 → 4<br>
-    ↑       ↓<br>
-    ← ← ← ←<br>
-<br>
-If there's a cycle, they MEET!
+1 → 2 → 3 → 4 → 5<br>
+    ↑           ↓<br>
+    ← ← ← ← ← ←<br>
+🐢 moves 1 step | 🐰 moves 2 steps<br>
+If cycle exists, they MEET!
                     </div>
 
                     <div class="code-snippet"><pre>let slow = head, fast = head;
 while (fast && fast.next) {
-  slow = slow.next;
-  fast = fast.next.next;
-  if (slow === fast) return true;
+  slow = slow.next;      // 1 step 🐢
+  fast = fast.next.next; // 2 steps 🐰
+  if (slow === fast) return true; // Cycle!
 }
-return false;</pre></div>
+return false; // No cycle
+
+// Find Middle: When fast reaches end,
+// slow is at middle!
+
+// Find Cycle Start: After meeting,
+// reset one to head, move both at
+// speed 1, they meet at cycle start!</pre></div>
 
                     <div class="smell-test">
                         <strong>🚨 Use When:</strong>
                         <ul>
-                            <li>Detect cycle in linked list</li>
+                            <li>Cycle detection in linked list</li>
                             <li>Find middle of linked list</li>
-                            <li>Find cycle start point</li>
+                            <li>Find cycle start position</li>
+                            <li>Palindrome linked list</li>
+                            <li>Happy number problem</li>
                         </ul>
                     </div>
 

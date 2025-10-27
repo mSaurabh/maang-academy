@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title>Day 1: Two Pointers - The Squeeze Play</title>
     <style>
         * {
@@ -427,7 +428,7 @@ function twoSum(numbers, target) {
     // YOUR CODE HERE
 }</pre>
                 </div>
-                <button class="solution-toggle" onclick="toggleSolution('sol1')">Show Solution</button>
+                <button class="solution-toggle" onclick="toggleSolution('sol1', event)">Show Solution</button>
                 <div id="sol1" class="solution-content">
                     <div class="code-block">
                         <pre>function twoSum(numbers, target) {
@@ -469,7 +470,7 @@ function removeDuplicates(nums) {
     // YOUR CODE HERE
 }</pre>
                 </div>
-                <button class="solution-toggle" onclick="toggleSolution('sol2')">Show Solution</button>
+                <button class="solution-toggle" onclick="toggleSolution('sol2', event)">Show Solution</button>
                 <div id="sol2" class="solution-content">
                     <div class="code-block">
                         <pre>function removeDuplicates(nums) {
@@ -506,7 +507,7 @@ function isPalindrome(s) {
     // YOUR CODE HERE
 }</pre>
                 </div>
-                <button class="solution-toggle" onclick="toggleSolution('sol3')">Show Solution</button>
+                <button class="solution-toggle" onclick="toggleSolution('sol3', event)">Show Solution</button>
                 <div id="sol3" class="solution-content">
                     <div class="code-block">
                         <pre>function isPalindrome(s) {
@@ -574,29 +575,12 @@ function isPalindrome(s) {
         </div>
     </div>
 
+    <!-- Common JavaScript -->
+    <script src="js/common.js"></script>
     <script>
-        function toggleSolution(id) {
-            const solution = document.getElementById(id);
-            solution.classList.toggle('show');
-            const btn = event.target;
-            btn.textContent = solution.classList.contains('show') ? 
-                'Hide Solution' : 'Show Solution';
-        }
-
-        // Mark as completed
+        // Mark Day 1 as completed
         window.addEventListener('load', () => {
-            const progress = JSON.parse(localStorage.getItem('maangProgress')) || {
-                completedDays: [],
-                patternsLearned: 0,
-                problemsSolved: 0
-            };
-            
-            if (!progress.completedDays.includes(1)) {
-                progress.completedDays.push(1);
-                progress.patternsLearned = Math.max(progress.patternsLearned, 1);
-                progress.problemsSolved = Math.max(progress.problemsSolved, 3);
-                localStorage.setItem('maangProgress', JSON.stringify(progress));
-            }
+            ProgressTracker.markDayComplete(1, 1, 3);
         });
     </script>
 </body>
